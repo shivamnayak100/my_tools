@@ -8,15 +8,9 @@ const dotenv = require('dotenv');
 dotenv.config({ path: "./config/config.env" });
 
 const app = express();
-app.use(cors(
-  {
-    origin :["https://my-tools-ten.vercel.app/"], 
-    methods : ["POST","GET"],
-    credentials : true
-  }
-));  // Allow cross-origin requests from React
+app.use(cors());  // Allow cross-origin requests from React
 
-// Use the excelToPdfRouter for the "/excel-to-pdf" route
+// Use the excelToPdfRouterunrivaled-kashata-04946b for the "/excel-to-pdf" route
 app.use('/excel-to-pdf', excelToPdfRouter);
 // Use the wordToPdfRouter for the "/word-to-pdf" route
 app.use('/word-to-pdf', wordToPdfRouter);
