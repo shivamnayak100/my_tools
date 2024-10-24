@@ -8,7 +8,11 @@ const dotenv = require('dotenv');
 dotenv.config({ path: "./config/config.env" });
 
 const app = express();
-app.use(cors());  // Allow cross-origin requests from React
+app.use(cors(
+  {
+     origin: 'https://ubiquitous-pavlova-b78a5e.netlify.app'
+  }
+));  // Allow cross-origin requests from React
 
 // Use the excelToPdfRouterunrivaled-kashata-04946b for the "/excel-to-pdf" route
 app.use('/excel-to-pdf', excelToPdfRouter);
