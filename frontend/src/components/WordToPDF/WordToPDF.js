@@ -24,7 +24,7 @@ const WordToPDF = () => {
         const formData = new FormData();
         formData.append('file', files[i]);
 
-        const response = await axios.post('https://playwithfile.onrender.com/word-to-pdf', formData, {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/word-to-pdf`, formData, {
           responseType: 'blob',
         });
 

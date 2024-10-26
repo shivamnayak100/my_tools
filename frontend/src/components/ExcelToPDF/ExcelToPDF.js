@@ -25,7 +25,7 @@ const ExcelToPDF = () => {
       formData.append('file', files[i]);
 
       try {
-        const response = await axios.post('https://playwithfile.onrender.com/excel-to-pdf', formData, {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/excel-to-pdf`, formData, {
           responseType: 'blob',  // Ensure response is treated as binary data
         });
 

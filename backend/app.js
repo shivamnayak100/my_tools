@@ -10,7 +10,7 @@ dotenv.config({ path: "./config/config.env" });
 const app = express();
 app.use(cors(
   {
-     origin: 'https://ubiquitous-pavlova-b78a5e.netlify.app'
+    //  origin: 'https://ubiquitous-pavlova-b78a5e.netlify.app'
   }
 ));  // Allow cross-origin requests from React
 
