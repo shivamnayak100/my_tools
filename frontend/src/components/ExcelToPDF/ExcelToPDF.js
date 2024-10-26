@@ -4,13 +4,14 @@ import './ExcelToPDF.css';
 import HowToUse from './HowToUse';
 
 const ExcelToPDF = () => {
-  const [files, setFiles] = useState([]);  // Multiple files
+  const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   // Handle multiple file selection
   const handleFileChange = (e) => {
     setFiles(e.target.files);
-    setError(null);  // Clear any previous errors
+    setError(null); // Clear any previous errors
   };
 
   // Handle file upload and conversion
@@ -20,20 +21,22 @@ const ExcelToPDF = () => {
       return;
     }
 
+    setIsLoading(true); // Start loading indicator
+
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
       formData.append('file', files[i]);
 
       try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/excel-to-pdf`, formData, {
-          responseType: 'blob',  // Ensure response is treated as binary data
+          responseType: 'blob', // Ensure response is treated as binary data
         });
 
         // Create a URL for the PDF and trigger download
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `converted-${files[i].name}.pdf`);  // Set file name for download
+        link.setAttribute('download', `converted-${files[i].name}.pdf`); // Set file name for download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -42,6 +45,8 @@ const ExcelToPDF = () => {
         console.error(err);
       }
     }
+
+    setIsLoading(false); // Stop loading indicator
   };
 
   return (
@@ -54,11 +59,11 @@ const ExcelToPDF = () => {
             type="file"
             accept=".xls,.xlsx"
             onChange={handleFileChange}
-            multiple  // Allow multiple files selection
+            multiple // Allow multiple files selection
             className="file-input"
           />
         </label>
-  
+
         {/* Display uploaded file names */}
         {files.length > 0 && (
           <ul className="file-list">
@@ -67,18 +72,24 @@ const ExcelToPDF = () => {
             ))}
           </ul>
         )}
-  
+
         {/* Conditionally render the Upload button only when files are selected */}
         {files.length > 0 && (
-          <button onClick={handleUpload} className="button">Convert to PDF</button>
+          <button onClick={handleUpload} className="button" disabled={isLoading}>
+            {isLoading ? (
+              <span className="loading-spinner">Converting...</span>
+            ) : (
+              "Convert to PDF"
+            )}
+          </button>
         )}
         {error && <p className="error">{error}</p>}
       </div>
       <div>
-        <HowToUse/>
+        <HowToUse />
       </div>
     </div>
-  );  
+  );
 };
 
 export default ExcelToPDF;

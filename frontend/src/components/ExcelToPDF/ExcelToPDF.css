@@ -58,6 +58,16 @@
   margin-bottom: 20px;
 }
 
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  color: white;
+  font-weight: bold;
+}
+
 .button:hover {
   background-color: #0039B3; /* Darker shade for hover */
 }

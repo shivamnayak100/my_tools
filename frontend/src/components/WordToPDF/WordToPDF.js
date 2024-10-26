@@ -1,4 +1,3 @@
-// src/components/WordToPDF.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './WordToPDF.css';
@@ -7,6 +6,7 @@ import HowToUse from './HowToUse';
 const WordToPDF = () => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const handleFileChange = (e) => {
     setFiles(Array.from(e.target.files)); // Convert FileList to array
@@ -18,6 +18,8 @@ const WordToPDF = () => {
       setError('Please select at least one file');
       return;
     }
+
+    setIsLoading(true); // Start loading indicator
 
     try {
       for (let i = 0; i < files.length; i++) {
@@ -39,6 +41,8 @@ const WordToPDF = () => {
     } catch (err) {
       setError('Error uploading files');
       console.error(err);
+    } finally {
+      setIsLoading(false); // Stop loading indicator
     }
   };
 
@@ -68,11 +72,17 @@ const WordToPDF = () => {
 
         {/* Conditionally render the Upload button only when files are selected */}
         {files.length > 0 && (
-          <button onClick={handleUpload} className="button">Convert to PDF</button>
+          <button onClick={handleUpload} className="button" disabled={isLoading}>
+            {isLoading ? (
+              <span className="loading-spinner">Converting...</span> // Show loading text or spinner
+            ) : (
+              "Convert to PDF"
+            )}
+          </button>
         )}
         {error && <p className="error">{error}</p>}
       </div>
-        <HowToUse/>
+      <HowToUse/>
     </div>
   );
 };
