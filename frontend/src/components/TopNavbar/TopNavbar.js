@@ -9,7 +9,7 @@ const TopNavbar = () => {
         <div className="navbar-title">PlaywithFile</div>
         <div className="navbar-links">
           <Link to="/" className="navbar-link">Excel to PDF</Link>
-          {/* <Link to="/word-to-pdf" className="navbar-link">Word to PDF</Link> */}
+          <Link to="/word-to-pdf" className="navbar-link">Word to PDF</Link>
         </div>
       </div>
     </div>

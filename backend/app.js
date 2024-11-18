@@ -8,11 +8,24 @@ const dotenv = require('dotenv');
 dotenv.config({ path: "./config/config.env" });
 
 const app = express();
-app.use(cors(
-  {
-    origin: 'https://playwithfile.netlify.app'
+
+// Define allowed origins
+const allowedOrigins = [
+  'https://playwithfile.netlify.app',  // Add your deployed React app origin
+  'http://localhost:3000'                   // Add localhost for development
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (e.g., mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
   }
-));  // Allow cross-origin requests from React
+}));
 
 // Use the excelToPdfRouterunrivaled-kashata-04946b for the "/excel-to-pdf" route
 app.use('/excel-to-pdf', excelToPdfRouter);
